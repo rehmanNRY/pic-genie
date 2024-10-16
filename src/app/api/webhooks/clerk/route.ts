@@ -31,6 +31,8 @@ export async function POST(req: Request) {
 
   // Get the body
   const payload = await req.json();
+  console.log("Received payload:", payload);
+
   const body = JSON.stringify(payload);
 
   // Create a new Svix instance with your secret.
@@ -55,11 +57,14 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
-
+  // Check event type
+  console.log("Event type:", eventType); // Log event type
   // CREATE
-   // CREATE
-   if (eventType === "user.created") {
+  if (eventType === "user.created") {
+    console.log("Handling user.created event."); // Log the handling of the event
+
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
+    console.log("reach3");
 
     const user = {
       clerkId: id,
