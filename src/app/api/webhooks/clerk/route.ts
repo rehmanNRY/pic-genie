@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import { clerkClient } from "@clerk/nextjs";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -8,6 +7,7 @@ import { Webhook } from "svix";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
+  console.log("reach req")
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -58,15 +58,17 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   // CREATE
-  if (eventType === "user.created") {
+   // CREATE
+   if (eventType === "user.created") {
+    console.log("reach useer crate")
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
       username: username!,
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name || "", // Ensure firstName is a string
+      lastName: last_name || "", // Ensure lastName is a string
       photo: image_url,
     };
 
@@ -89,8 +91,8 @@ export async function POST(req: Request) {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name || "", // Ensure firstName is a string
+      lastName: last_name || "", // Ensure lastName is a string
       username: username!,
       photo: image_url,
     };
