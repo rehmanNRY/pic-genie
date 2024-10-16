@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TransformationPage = ({params}) => {
+const TransformationPage = ({params}: {params: {id: string}}) => {
   return (
     <div>TransformationPage: {params.id}</div>
   )
