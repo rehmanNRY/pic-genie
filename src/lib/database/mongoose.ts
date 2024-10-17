@@ -21,6 +21,7 @@ if (!cached) {
 
 export const connectToDatabase = async () => {
   if (cached.conn) return cached.conn;
+  console.log("reach mongoose")
   if (!MONGO_URL) throw new Error('Missing MONGODB_URL');
 
   try {
