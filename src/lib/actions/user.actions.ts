@@ -21,6 +21,18 @@ export async function createUser(user: CreateUserParams) {
   }
 }
 
+
+// Find user by email
+export async function findUserByEmail(email: string) {
+  try {
+    await connectToDatabase();
+    return await User.findOne({ email });
+  } catch (error) {
+    handleError(error);
+    throw error; // Rethrow the error for further handling
+  }
+}
+
 // READ
 export async function getUserById(userId: string) {
   try {
