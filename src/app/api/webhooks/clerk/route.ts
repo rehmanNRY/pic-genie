@@ -3,25 +3,24 @@
 import { createUser, findUserByEmail } from "@/lib/actions/user.actions"; // Import both functions
 
 export async function POST(req: Request) {
-  console.log("Request reached the route!"); 
-  const payload = await req.json();
-  console.log("Payload:", payload); // Log the entire payload
+  console.log("req",req)
+  console.log("Request reached the route!");
 
-  // Ensure the payload has the required fields
-  const { id, email_addresses, username, first_name, last_name, image_url } = payload.data || {};
-  
-  // Log the extracted fields
-  console.log("Extracted Fields:", { id, email_addresses, username, first_name, last_name, image_url });
+  // Dummy hardcoded data for testing
+  const dummyData = {
+    id: "dummy-324chhlerk-id",
+    email_addresses: [{ email_address: "tes423hggh4t@example.com" }],
+    username: "testsbbfsdfuser",
+    first_name: "John",
+    last_name: "Doe",
+    image_url: "https://example.com/photo.jpg",
+  };
 
-  // Check for required fields
-  if (!id || !email_addresses || !email_addresses[0]?.email_address || !username || !image_url) {
-    console.error("Missing required fields");
-    return new Response("Missing required fields", { status: 400 });
-  }
+  console.log("Using dummy data:", dummyData); // Log the dummy data
 
-  // Create user in the database
+  // Use the hardcoded data for user creation
   try {
-    const email = email_addresses[0].email_address; // Extract email
+    const email = dummyData.email_addresses[0].email_address; // Extract email from dummy data
 
     // Check if user already exists
     const existingUser = await findUserByEmail(email);
@@ -31,12 +30,12 @@ export async function POST(req: Request) {
     }
 
     const userData = {
-      clerkId: id,
+      clerkId: dummyData.id,
       email,
-      username,
-      photo: image_url, // Assuming image_url corresponds to photo in your model
-      firstName: first_name,
-      lastName: last_name,
+      username: dummyData.username,
+      photo: dummyData.image_url, // Use the photo URL from dummy data
+      firstName: dummyData.first_name,
+      lastName: dummyData.last_name,
     };
 
     console.log("Creating user with data:", userData); // Log the user data before creation
