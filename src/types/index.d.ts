@@ -25,7 +25,7 @@ declare type AddImageParams = {
     transformationType: string;
     width: number;
     height: number;
-    config: Transformations | null; // Specify the config type here
+    config: any;
     secureURL: string;
     transformationURL: string;
     aspectRatio: string | undefined;
@@ -44,7 +44,7 @@ declare type UpdateImageParams = {
     transformationType: string;
     width: number;
     height: number;
-    config: Transformations | null; // Specify the config type here
+    config: any;
     secureURL: string;
     transformationURL: string;
     aspectRatio: string | undefined;
@@ -128,19 +128,7 @@ declare type TransformationFormProps = {
 };
 
 declare type TransformedImageProps = {
-  image: {
-    title: string;
-    publicId: string;
-    transformationType: string;
-    width: number;
-    height: number;
-    config: Transformations | null;
-    secureURL: string;
-    transformationURL: string;
-    aspectRatio: string | undefined;
-    prompt: string | undefined;
-    color: string | undefined;
-  }; // Replace 'any' with the proper type
+  image: any;
   type: string;
   title: string;
   transformationConfig: Transformations | null;

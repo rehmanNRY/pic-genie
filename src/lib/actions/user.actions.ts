@@ -10,26 +10,12 @@ import { handleError } from "../utils";
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase();
-    console.log("reach1---");
 
     const newUser = await User.create(user);
-    console.log(newUser)
 
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
-  }
-}
-
-
-// Find user by email
-export async function findUserByEmail(email: string) {
-  try {
-    await connectToDatabase();
-    return await User.findOne({ email });
-  } catch (error) {
-    handleError(error);
-    throw error; // Rethrow the error for further handling
   }
 }
 
