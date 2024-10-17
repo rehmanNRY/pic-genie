@@ -2,7 +2,7 @@ import { clerkMiddleware } from '@clerk/nextjs/server'
 
 // Make sure that the `/api/webhooks(.*)` route is not protected here
 export default clerkMiddleware()
-console.log("excute middleware")
+
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
