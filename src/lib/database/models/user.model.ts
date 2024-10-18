@@ -1,4 +1,17 @@
-import { Schema, model, models } from "mongoose";
+import { model, models, Schema } from "mongoose";
+
+// export interface IUser extends Document {
+//   clerkId: string;
+//   email: string;
+//   username: string;
+//   photo: string;
+//   firstName: string;
+//   lastName: string;
+//   planId: string;
+//   creditBalance: number;
+//   createdAt?: Date; // Included for timestamp
+//   updatedAt?: Date; // Included for timestamp
+// }
 
 const UserSchema = new Schema({
   clerkId: {
@@ -34,7 +47,7 @@ const UserSchema = new Schema({
     type: Number,
     default: 10,
   },
-});
+}, { timestamps: true });
 
 const User = models?.User || model("User", UserSchema);
 
