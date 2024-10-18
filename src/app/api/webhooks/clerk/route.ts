@@ -3,28 +3,32 @@ import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 
 export async function POST(req: Request) {
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
-  console.log("reachh1");
+  console.log("Received POST request at webhook");
 
-  if (!WEBHOOK_SECRET) {
-    throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local');
-  }
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  console.log("Webhook secret:", WEBHOOK_SECRET);
 
   const headerPayload = headers();
+  console.log("Headers received:", headerPayload);
+
   const svix_id = headerPayload.get('svix-id');
   const svix_timestamp = headerPayload.get('svix-timestamp');
   const svix_signature = headerPayload.get('svix-signature');
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
+    console.log("Missing svix headers:", { svix_id, svix_timestamp, svix_signature });
     return new Response('Error occurred -- no svix headers', {
       status: 400,
     });
   }
 
   const payload = await req.json();
-  const body = JSON.stringify(payload);
+  console.log("Payload received:", payload);
 
-  const wh = new Webhook(WEBHOOK_SECRET);
+  const body = JSON.stringify(payload);
+  console.log("Stringified payload:", body);
+
+  const wh = new Webhook(WEBHOOK_SECRET || '');
   let evt: WebhookEvent;
 
   try {
@@ -48,12 +52,13 @@ export async function POST(req: Request) {
   return new Response('Webhook received', {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*', // Allow all origins
-      'Access-Control-Allow-Methods': 'POST, OPTIONS', // Allowed methods
-      'Access-Control-Allow-Headers': 'Content-Type, svix-id, svix-timestamp, svix-signature', // Allowed headers
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, svix-id, svix-timestamp, svix-signature',
     },
   });
 }
+
 
 export async function OPTIONS() {
   return new Response(null, {
