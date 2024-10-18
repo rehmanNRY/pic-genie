@@ -1,14 +1,12 @@
 import { clerkMiddleware } from '@clerk/nextjs/server'
 
-// Make sure that the `/api/webhooks(.*)` route is not protected here
+// Apply Clerk middleware to specific routes, but exclude `/api/webhooks/clerk`
 export default clerkMiddleware()
-console.log("reach middleware")
+
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-    '!/api/webhooks/clerk',
+    // Apply Clerk middleware to the following routes (but exclude `/api/webhooks/clerk`)
+    '/((?!api/webhooks/clerk).*)', // All routes except `/api/webhooks/clerk`
+    '/(api|trpc)(.*)', // Ensure all API routes are included except `/api/webhooks/clerk`
   ],
 }
